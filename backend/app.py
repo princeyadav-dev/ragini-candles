@@ -174,7 +174,7 @@ def chat():
     if not key:return jsonify(error="The AI assistant is not configured yet. Please browse the shop or contact the store directly."),503
     try:
         catalogue=[product_json(p) for p in Product.query.all()]
-        model=os.getenv("GROQ_MODEL","llama-3.3-70b-versatile").strip()
+        model=os.getenv("GROQ_MODEL","llama-3.1-8b-instant").strip()
         client=Groq(api_key=key,timeout=18.0,max_retries=1)
         system=("You are Ragini, the friendly bilingual (Hindi/English) assistant for Ragini Candles. "
           "Use only this catalogue and configured policy facts. Do not invent prices, stock, delivery times, fees, return policies, certifications, reviews, or guarantees. "
