@@ -1,0 +1,6 @@
+document.addEventListener("DOMContentLoaded",async()=>{
+ const box=document.querySelector("#product-detail"), params=new URLSearchParams(location.search),id=params.get("id");
+ if(!id){box.innerHTML="<p>Choose a candle from the shop to see its details.</p>";return}
+ try{const p=await RaginiProducts.get(id);box.innerHTML=`<div class="detail-image"><img src="${p.image.replace(/["<>]/g,"")}" alt="${p.name.replace(/[&<>"]/g,"")}" onerror="this.src='images/candle-placeholder.svg'"></div><div class="detail-copy"><p class="eyebrow">${p.category}</p><h1>${p.name.replace(/[&<>"]/g,"")}</h1><p class="price">${money(p.price)}</p><p>${p.description.replace(/[&<>"]/g,"")}</p><p class="muted">${p.stock>0?`${p.stock} available`:"Currently sold out"}</p>${p.fragrance?`<p><strong>Fragrance:</strong> ${p.fragrance}</p>`:""}${p.size?`<p><strong>Size:</strong> ${p.size}</p>`:""}<button class="button" id="add-product" ${p.stock<=0?"disabled":""}>Add to bag</button></div>`;document.querySelector("#add-product")?.addEventListener("click",()=>{const a=cartStore.read(),r=a.find(x=>x.id===p.id);if(r)r.qty=Math.min(r.qty+1,p.stock);else a.push({id:p.id,qty:1});cartStore.write(a);document.querySelector("#add-product").textContent="Added to bag"})}
+ catch{box.innerHTML='<p class="muted">This candle could not be loaded. Please return to the shop.</p>'}
+});

@@ -1,0 +1,13 @@
+# Secrets and local state
+.env
+backend/.env
+*.db
+*.sqlite
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env.*
+!.env.example
+.DS_Store
+.vscode/
